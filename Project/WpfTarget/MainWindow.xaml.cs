@@ -27,7 +27,14 @@ namespace WpfTarget
 
         private void ButtonOKClick(object sender, RoutedEventArgs e)
         {
-
+            StringBuilder msg = new StringBuilder();
+            msg.AppendLine(_textBoxCompanyName.Text);
+            if (_dateTimePickerFounding.SelectedDate.HasValue)
+            {
+                msg.AppendLine(_dateTimePickerFounding.SelectedDate.Value.ToShortDateString());
+            }
+            msg.Append(string.Join(Environment.NewLine, ((List<Member>)_grid.ItemsSource).Select(x => x.ToString())));
+            MessageBox.Show(msg.ToString());
         }
     }
 
@@ -44,5 +51,10 @@ namespace WpfTarget
         public string Name { get; set; }
         public Language Language { get; set; }
         public bool IsProgramer { get; set; }
+
+        public override string ToString()
+        {
+            return Name + ", " + Language + ", " + IsProgramer;
+        }
     }
 }
